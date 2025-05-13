@@ -26,10 +26,12 @@ int main()
 
     do {
         menu();
-        if (!(cin >> choice)) {  // Если введено не число
+        if (!(cin >> choice)) // Если введено не число
+        { 
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Ошибка! Введите число от 0 до 5: ";
+            choice = 99;
             continue;
         }
 
@@ -126,7 +128,7 @@ void swap(Node*& top)
         cout << "Ошибка";
         return;
     }
-	
+
     Node* first = top;
     Node* second = top->next;
 
