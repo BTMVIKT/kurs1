@@ -1,0 +1,164 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <locale.h>
+#include <stdio.h>
+using namespace std;
+
+
+struct Node
+{
+    int y;
+    Node* next;
+};
+Node* creatNode(int x);
+void push(Node*& top, int x);
+void See(Node* top);
+void swap(Node*& top);
+void deleteS(Node*& top);
+void menu();
+
+int main()
+{
+    setlocale(LC_ALL, "RUS");
+    srand(time(NULL));
+    Node* top = nullptr;
+    int choice, y;
+
+    do {
+        menu();
+        if (!(cin >> choice)) {  // Если введено не число
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Ошибка! Введите число от 0 до 5: ";
+            continue;
+        }
+
+        switch (choice) {
+        case 1:
+            if (top != nullptr) 
+            {
+                cout << "Стек уже создан" << endl;
+            }
+            else 
+            {
+                cout << "Введите значение первого элемента: ";
+                if (!(cin >> y)) {  // Если введено не число
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "\nОшибка! нужно вести целое число ";
+                    break;
+                }
+                push(top, y);
+                cout << "Стек создан с элементом " << y << endl;
+            }
+            break;
+        case 2:
+            cout << "Введите значение нового элемента: ";
+            if (!(cin >> y)) {  // Если введено не число
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "\nОшибка! нужно вести целое число ";
+                break;
+            }
+            push(top, y);
+            cout << "Элемент " << y << " добавлен" << endl;
+            break;
+        case 3:
+            See(top);
+            break;
+        case 4:
+            swap(top);
+            break;
+        case 5:
+            deleteS(top);
+            break;
+        case 0:
+            cout << "Выход из программы." << endl;
+            break;
+        default:
+            cout << "Ошибка" << endl;
+        }
+    } while (choice != 0);
+
+    if (top != nullptr) {
+        deleteS(top);
+    }
+
+    return 0;
+}
+
+Node* creatNode(int y) //создание стека(первого узла)
+{
+    Node* NewNode = new Node();
+    NewNode->y = y;
+    NewNode->next = nullptr;
+    return NewNode;
+}
+
+void push(Node*& top, int x)
+{
+    Node* NewNode = creatNode(x);
+    NewNode->next = top;
+    top = NewNode;
+}
+
+void See(Node* current) // просмотр стэка
+{
+    if (current == nullptr)
+    {
+        cout << "Стэк пуст";
+        return;
+    }
+
+    cout << "Элементы стэка: ";
+    while (current != nullptr)
+    {
+        cout << current->y << " ";
+        current = current->next;
+    }
+}
+
+// обмен текущего элемента и следующего
+void swap(Node*& top)
+{
+    if (top == nullptr || top->next == nullptr)
+    {
+        cout << "Ошибка";
+        return;
+    }
+	
+    Node* first = top;
+    Node* second = top->next;
+
+    first->next = second->next;
+    second->next = first;
+    top = second;
+
+    cout << "Элементы " << first->y << " и " << second->y << " поменялись" << endl;
+}
+
+// удаления стека
+void deleteS(Node*& top)
+{
+    Node* x = top;
+    while (x != nullptr)
+    {
+        Node* temp = x;
+        x = x->next;
+        delete temp;
+    }
+    top = nullptr;
+    cout << "Стек удален." << endl;
+}
+
+void menu()
+{
+    cout << "\nМеню:" << endl;
+    cout << "1. Создать стек (добавить первый элемент)" << endl;
+    cout << "2. Добавить элемент в стек" << endl;
+    cout << "3. Просмотреть элементы стека" << endl;
+    cout << "4. Обменять текущий и следующий элементы" << endl;
+    cout << "5. Удалить стек" << endl;
+    cout << "0. Выход" << endl;
+    cout << "Выберите действие: ";
+}
