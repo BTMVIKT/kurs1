@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <locale.h>
 #include <stdio.h>
@@ -20,14 +19,13 @@ void menu();
 int main()
 {
     setlocale(LC_ALL, "RUS");
-    srand(time(NULL));
     Node* top = nullptr;
     int choice, y;
 
     do {
         menu();
         if (!(cin >> choice)) // Если введено не число
-        { 
+        {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Ошибка! Введите число от 0 до 5: ";
@@ -37,11 +35,11 @@ int main()
 
         switch (choice) {
         case 1:
-            if (top != nullptr) 
+            if (top != nullptr)
             {
                 cout << "Стек уже создан" << endl;
             }
-            else 
+            else
             {
                 cout << "Введите значение первого элемента: ";
                 if (!(cin >> y)) {  // Если введено не число
